@@ -17,7 +17,7 @@ function SettlementSummary({ settlement }) {
                 owes{' '}
                 <span className="settlement-name">{item.to_person}</span>{' '}
                 <span className="settlement-amount">
-                  Rs {item.amount.toFixed(2)}
+                  Rs {parseFloat(item.amount.toFixed(2)).toString()}
                 </span>
               </div>
             </div>
