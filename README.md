@@ -2,6 +2,8 @@
 
 A full-stack web application for tracking shared expenses among friends. Built with **FastAPI** (backend) and **React** (frontend).
 
+**Live demo:** https://split-up-1.onrender.com/
+
 ## Features
 
 ✅ **Add User** - Easily add friends to your group
