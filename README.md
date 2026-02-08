@@ -16,7 +16,10 @@ A full-stack web application for tracking shared expenses among friends. Built w
 assignment/
 ├── backend/
 │   ├── main.py                 # FastAPI application with SQLAlchemy ORM
-│   ├── config.py               # Database configuration
+│   ├── validation_model         # Pydantic models
+│   ├── routes                   # user and expense routes
+│   ├── db                       # folder containing connection and different models
+│   ├── services                 # services for settlement and expense
 │   ├── requirements.txt         # Python dependencies
 │   ├── .gitignore
 │   ├── setup.bat               # Windows setup script
