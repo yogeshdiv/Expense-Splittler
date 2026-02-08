@@ -9,11 +9,6 @@ A full-stack web application for tracking shared expenses among friends. Built w
 ✅ **View Expenses** - See a comprehensive list of all expenses
 ✅ **Settlement Summary** - Automatic debt calculation and simplification to minimize transactions
 
-## Tech Stack
-
-- **Backend**: FastAPI, Python
-- **Frontend**: React 18, Axios
-- **Architecture**: REST API
 
 ## Project Structure
 
@@ -23,7 +18,6 @@ assignment/
 │   ├── main.py                 # FastAPI application with SQLAlchemy ORM
 │   ├── config.py               # Database configuration
 │   ├── requirements.txt         # Python dependencies
-│   ├── .env.example            # Database config template
 │   ├── .gitignore
 │   ├── setup.bat               # Windows setup script
 │   └── setup.sh                # macOS/Linux setup script
@@ -94,18 +88,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-5. Configure Database:
-Copy `.env.example` to `.env` and choose your database:
-```bash
-```
-
-**SQLite**: No additional setup needed. Database file will be created automatically.
-
-```bash
-createdb expense_splitter
-```
-
-6. Run the server:
+5. Run the server:
 ```bash
 python main.py
 ```
@@ -174,19 +157,13 @@ The app will open at `http://localhost:3000`
 - Charlie owes Bob Rs 300
 (Simplified to: Charlie owes Alice Rs 400 + Bob Rs 300, or further simplified if there are reverse transactions)
 
-## Notes
-
-- **Data Persistence**: All data is stored in PostgreSQL or SQLite database (configured via .env)
-- **Database**: Supports both PostgreSQL (production) and SQLite (development)
-- **Auto Schema Creation**: Database tables are automatically created on first run
-- Frontend auto-refreshes every 2 seconds to stay synchronized with the backend
-- The debt settlement algorithm automatically simplifies transactions to minimize the number of payments needed
 
 ## Database Schema
 
-**People Table**:
+**User Table**:
 - `id`: Primary key
 - `name`: Unique name of the person
+- `balance`: Balance 
 
 **Expenses Table**:
 - `id`: Primary key
@@ -199,63 +176,14 @@ The app will open at `http://localhost:3000`
 - `expense_id`: Foreign key to expenses
 - `person_id`: Foreign key to people (split among)
 
-## Troubleshooting
-
-### Database Connection Error
-**Problem**: `psycopg2.OperationalError: could not translate host name "localhost"`
-
-**Solution**: 
-- Make sure PostgreSQL is installed and running
-- Or switch to SQLite in `.env`: `DATABASE_TYPE=sqlite`
-
-### Port Already in Use
-**Problem**: `OSError: [Errno 48] Address already in use`
-
-**Solution**: Kill the existing process or change port:
-```bash
-# On Windows
-netstat -ano | findstr :8000
-taskkill /PID <PID> /F
-
-# On macOS/Linux
-lsof -i :8000
-kill -9 <PID>
-```
-
-### Module Not Found
-**Problem**: `ModuleNotFoundError: No module named 'sqlalchemy'`
-
-**Solution**: Make sure virtual environment is activated and dependencies are installed:
-```bash
-# Activate venv
-source venv/bin/activate  # Linux/macOS
-venv\Scripts\activate     # Windows
-
-# Reinstall dependencies
-pip install -r requirements.txt
-```
-
-### Frontend Won't Connect to Backend
-**Problem**: `Error: Network Error` or `CORS error`
-
-**Solution**: 
-- Make sure backend is running on `http://localhost:8000`
-- API will auto-refresh every 2 seconds
-- Check browser console for detailed errors
 
 ## Future Enhancements
 
+- Pagination for displaying expenses
+- migartion to postgres for scaling
 - User authentication & authorization
-- Payment history tracking
 - Export/Download reports (PDF, CSV)
-- Mobile app (React Native/Flutter)
-- Real-time updates using WebSockets
 - Email notifications
-- Database migrations (Alembic)
-- Advanced settlement algorithms
-- Group management
 - Settlement confirmation tracking
 
 ---
-
-Made with ❤️ for easy expense management

@@ -3,15 +3,16 @@ from pydantic import BaseModel
 from datetime import date
 
 
-# Pydantic Models
 class UserCreate(BaseModel):
     name: str
 
-class User(UserCreate):
+class UserResponse(BaseModel):
     id: int
-    
+    name: str
+
     class Config:
-        from_attributes = True
+        orm_mode = True
+
 
 class ExpenseCreate(BaseModel):
     description: str

@@ -1,11 +1,10 @@
+from dotenv import load_dotenv
+load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes.user import router as user_router
 from routes.expense import router as expense_router
 from db.connection import Base, engine
-
-from dotenv import load_dotenv
-load_dotenv()
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Expense Splitter API")
