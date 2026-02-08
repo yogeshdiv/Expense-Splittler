@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import * as api from './api';
+import { REFRESH_PATTERNS } from './utils';
 import UserSection from './components/UserSection';
 import ExpenseSection from './components/ExpenseSection';
 import ExpensesList from './components/ExpensesList';
@@ -15,8 +16,9 @@ function App() {
   const fetchUsers = () => api.getUsers();
   const fetchExpenses = () => api.getExpenses();
   const fetchSettlement = () => api.getSettlement();
-  // Fetch data
-  const refresh = async ({
+  
+  // Memoize refresh since it makes multiple API calls and is passed to children
+  const refresh = useCallback(async ({
     users = false,
     expenses = false,
     settlement = false,
@@ -40,12 +42,12 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
 
   useEffect(() => {
-    refresh({ users: true, expenses: true, settlement: true });
-  }, []);
+    refresh(REFRESH_PATTERNS.ALL);
+  }, [refresh]);
 
   return (
     <div className="app">

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import * as api from '../api';
+import { REFRESH_PATTERNS } from '../utils';
 
 function ExpenseSection({ users, onExpenseAdded }) {
   const [description, setDescription] = useState('');
@@ -57,7 +58,7 @@ function ExpenseSection({ users, onExpenseAdded }) {
       setSuccess('Expense added successfully!');
       setTimeout(() => setSuccess(''), 3000);
 
-      onExpenseAdded({ users: false, expenses: true, settlement: true });
+      onExpenseAdded(REFRESH_PATTERNS.EXPENSES_AND_SETTLEMENT);
     } catch (err) {
       setError(err.response?.data?.detail || 'Error adding expense');
     }

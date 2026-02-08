@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as api from '../api';
+import { REFRESH_PATTERNS } from '../utils';
 
 function UserSection({ users, onUpdate }) {
   const [userName, setUserName] = useState('');
@@ -18,7 +19,7 @@ function UserSection({ users, onUpdate }) {
     try {
       await api.addUser(name);
       setUserName('');
-      onUpdate({ users: true, expenses: false, settlement: false });
+      onUpdate(REFRESH_PATTERNS.USERS_ONLY);
     } catch (err) {
       setError(err.response?.data?.detail || 'Error adding user');
     }
@@ -27,7 +28,7 @@ function UserSection({ users, onUpdate }) {
   const handleRemoveUser = async (name) => {
     try {
       await api.removeUser(name);
-      onUpdate({ users: true, expenses: true, settlement: true });
+      onUpdate(REFRESH_PATTERNS.ALL);
     } catch (err) {
       console.error('Error removing user:', err);
     }

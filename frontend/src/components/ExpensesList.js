@@ -1,19 +1,11 @@
 import * as api from '../api';
+import { formatDate, REFRESH_PATTERNS } from '../utils';
 
 function ExpensesList({ expenses, onDelete }) {
-  const formatDate = (dateStr) => {
-    const date = new Date(dateStr + 'T00:00:00');
-    return date.toLocaleDateString('en-IN', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
-  };
-
   const handleDelete = async (id) => {
     try {
       await api.deleteExpense(id);
-      onDelete({ users: false, expenses: true, settlement: true });
+      onDelete(REFRESH_PATTERNS.EXPENSES_AND_SETTLEMENT);
     } catch (err) {
       console.error('Error deleting expense:', err);
     }
