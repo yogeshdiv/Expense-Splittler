@@ -26,11 +26,12 @@ function UserSection({ users, onUpdate }) {
   };
 
   const handleRemoveUser = async (name) => {
+    setError('');
     try {
       await api.removeUser(name);
       onUpdate(REFRESH_PATTERNS.ALL);
     } catch (err) {
-      console.error('Error removing user:', err);
+      setError(err.response?.data?.detail || err.message);
     }
   };
 

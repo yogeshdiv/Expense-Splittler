@@ -47,3 +47,19 @@ def create_expense_service(expense_data: ExpenseCreate, db: Session) -> Expense:
     db.refresh(new_expense)
 
     return new_expense
+
+def delete_expense_service(expense_id: int, db: Session):
+    expense = db.query(Expenses).filter(Expenses.id == expense_id).first()
+    if not expense:
+        raise HTTPException(404, "Expense not found")
+
+    split_users = expense.split_between_users
+    share = expense.amount / len(split_users)
+
+    expense.paid_by_user.balance -= expense.amount
+
+    for user in split_users:
+        user.balance += share
+
+    db.delete(expense)
+    db.commit()

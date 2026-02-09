@@ -5,7 +5,7 @@ from db.models.expense import Expenses
 from db.utils import get_db
 from typing import List
 from services.settlement import calculate_settlement
-from services.expense import create_expense_service
+from services.expense import create_expense_service, delete_expense_service
 
 router = APIRouter()
 
@@ -23,20 +23,7 @@ def create_expense(expense: ExpenseCreate, db: Session = Depends(get_db)):
 def delete_expense(expense_id: int, db: Session = Depends(get_db)):
     """Delete an expense and revert balances"""
 
-    expense = db.query(Expenses).filter(Expenses.id == expense_id).first()
-    if not expense:
-        raise HTTPException(404, "Expense not found")
-
-    split_users = expense.split_between_users
-    share = expense.amount / len(split_users)
-
-    expense.paid_by_user.balance -= expense.amount
-
-    for user in split_users:
-        user.balance += share
-
-    db.delete(expense)
-    db.commit()
+    delete_expense_service(expense_id, db)
 
 
 @router.get("/settlement", response_model=List[Settlement])
